@@ -25,9 +25,7 @@ command -v python3 >/dev/null 2>&1 || { echo "ERROR: python3 not found."; exit 1
 # ---------------- CONFIG ----------------
 VBR_QUALITY="${VBR_QUALITY:-2}"     # LAME: 0 highest, 2 excellent, 4/5 smaller
 NIGHTCORE="${NIGHTCORE:-1.20}"      # faster + higher pitch
-NIGHTCORE_ALT="${NIGHTCORE_ALT:-1.25}"      # faster + higher pitch
 DAYCORE="${DAYCORE:-0.85}"          # slower + lower pitch
-DAYCORE_ALT="${DAYCORE_ALT:-0.80}"          # slower + lower pitch
 MORNINGCORE="${MORNINGCORE:-0.90}"  # slower + lower pitch
 SPEEDUP="${SPEEDUP:-1.10}"          # faster + higher pitch
 SLOWDOWN="${SLOWDOWN:-0.90}"        # slower + lower pitch
@@ -137,9 +135,7 @@ while IFS= read -r -d '' src; do
   echo "[$COUNT] $(basename "$src")" | tee -a "$LOG"
 
   process_variant "$src" "nightcore" "$NIGHTCORE" "pitch"
-  process_variant "$src" "nightcore_alt" "$NIGHTCORE_ALT" "pitch"
   process_variant "$src" "daycore" "$DAYCORE" "pitch"
-  process_variant "$src" "daycore_alt" "$DAYCORE_ALT" "pitch"
   process_variant "$src" "morningcore" "$MORNINGCORE" "pitch"
   process_variant "$src" "speedup" "$SPEEDUP" "pitch"
   process_variant "$src" "slowdown" "$SLOWDOWN" "pitch"
