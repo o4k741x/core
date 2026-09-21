@@ -24,20 +24,21 @@ command -v python3 >/dev/null 2>&1 || { echo "ERROR: python3 not found."; exit 1
 
 # ---------------- CONFIG ----------------
 VBR_QUALITY="${VBR_QUALITY:-2}"     # LAME: 0 highest, 2 excellent, 4/5 smaller
-NIGHTCORE="${NIGHTCORE:-1.20}"      # faster + higher pitch
-NIGHTCORE_ALT="${NIGHTCORE_ALT:-1.25}"      # faster + higher pitch
-DAYCORE="${DAYCORE:-0.85}"          # slower + lower pitch
-DAYCORE_ALT="${DAYCORE_ALT:-0.80}"          # slower + lower pitch
-MORNINGCORE="${MORNINGCORE:-0.90}"  # slower + lower pitch
-SPEEDUP="${SPEEDUP:-1.10}"          # faster + higher pitch
-SLOWDOWN="${SLOWDOWN:-0.90}"        # slower + lower pitch
-TEMPOFAST="${TEMPOFAST:-1.20}"      # faster, pitch preserved
-TEMPOSLOW="${TEMPOSLOW:-0.85}"      # slower, pitch preserved
+NIGHTCORE="${NIGHTCORE:-1.25}"      # faster + higher pitch
+NIGHTCORE_ALT="${NIGHTCORE_ALT:-1.20}"      # faster + higher pitch
+DAYCORE="${DAYCORE:-0.80}"          # slower + lower pitch
+DAYCORE_ALT="${DAYCORE_ALT:-0.85}"          # slower + lower pitch
+MORNINGCORE="${MORNINGCORE:-0.75}"  # slower + lower pitch
+MORNINGCORE_ALT="${MORNINGCORE_ALT:-0.90}"  # slower + lower pitch
+SPEDUP="${SPEDUP:-1.20}"          # faster + higher pitch
+SLOWDOWN="${SLOWDOWN:-0.8}"        # slower + lower pitch
+BPMFAST="${BPMFAST:-1.20}"      # faster, pitch preserved
+BPMSLOW="${BPMSLOW:-0.85}"      # slower, pitch preserved
 # -----------------------------------------
 
 STAMP="$(date '+%Y%m%d-%H%M%S')"
 ROOT="$INPUT/AudioEdits"
-mkdir -p "$ROOT"/{mp3/nightcore,mp3/daycore,mp3/morningcore,mp3/speedup,mp3/slowdown,mp3/tempofast,mp3/temposlow,manifests,logs}
+mkdir -p "$ROOT"/{mp3/nightcore,mp3/nightcore_alt,mp3/daycore,mp3/daycore_alt,mp3/morningcore,mp3/morningcore_alt,mp3/speedup,mp3/slowdown,mp3/bpmfast,mp3/bpmslow,manifests,logs}
 
 JSON="$ROOT/manifests/audio-edits-$STAMP.json"
 CSV="$ROOT/manifests/audio-edits-$STAMP.csv"
@@ -72,7 +73,7 @@ process_variant() {
   local filename name out
   filename="$(basename "$src")"
   name="${filename%.*}"
-  out="$outdir/$name [$variant].mp3"
+  out="$outdir/$name +$variant +$mode @+$factor+mp3.mp3"
 
   # ffmpeg's asetrate trick gives classic speed+pitch behavior:
   # factor > 1 = faster/higher pitch; factor < 1 = slower/lower pitch.
@@ -141,10 +142,11 @@ while IFS= read -r -d '' src; do
   process_variant "$src" "daycore" "$DAYCORE" "pitch"
   process_variant "$src" "daycore_alt" "$DAYCORE_ALT" "pitch"
   process_variant "$src" "morningcore" "$MORNINGCORE" "pitch"
-  process_variant "$src" "speedup" "$SPEEDUP" "pitch"
+  process_variant "$src" "morningcore_alt" "$MORNINGCORE" "pitch"
+  process_variant "$src" "speedup" "$SPEDUP" "pitch"
   process_variant "$src" "slowdown" "$SLOWDOWN" "pitch"
-  process_variant "$src" "tempofast" "$TEMPOFAST" "tempo"
-  process_variant "$src" "temposlow" "$TEMPOSLOW" "tempo"
+  process_variant "$src" "bpmfast" "$BPMFAST" "tempo"
+  process_variant "$src" "bpmslow" "$BPMSLOW" "tempo"
 done < "$MANIFEST_TMP.files"
 
 export MANIFEST_TMP JSON CSV INPUT ROOT STAMP VBR_QUALITY
