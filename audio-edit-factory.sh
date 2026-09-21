@@ -26,19 +26,30 @@ command -v python3 >/dev/null 2>&1 || { echo "ERROR: python3 not found."; exit 1
 VBR_QUALITY="${VBR_QUALITY:-2}"     # LAME: 0 highest, 2 excellent, 4/5 smaller
 NIGHTCORE="${NIGHTCORE:-1.25}"      # faster + higher pitch
 NIGHTCORE_ALT="${NIGHTCORE_ALT:-1.20}"      # faster + higher pitch
+
 DAYCORE="${DAYCORE:-0.80}"          # slower + lower pitch
 DAYCORE_ALT="${DAYCORE_ALT:-0.85}"          # slower + lower pitch
-MORNINGCORE="${MORNINGCORE:-0.75}"  # slower + lower pitch
-MORNINGCORE_ALT="${MORNINGCORE_ALT:-0.90}"  # slower + lower pitch
-SPEDUP="${SPEDUP:-1.20}"          # faster + higher pitch
-SLOWDOWN="${SLOWDOWN:-0.8}"        # slower + lower pitch
+
+MORNINGCORE="${MORNINGCORE:-0.90}"  # slower + lower pitch
+MORNINGCORE_ALT="${MORNINGCORE_ALT:-0.75}"  # slower + lower pitch
+
+SPEDUP="${SPEDUP:-1.200}"          # faster + higher pitch
+SPEDUP_ALT="${SPEDUP_ALT:-1.220}"          # faster + higher pitch
+SPEDUP_ALT_2="${SPEDUP_ALT_2:-1.340}"          # faster + higher pitch
+
+SLOWDOWN="${SLOWDOWN:-0.95}"        # slower + lower pitch
+SLOWDOWN_ALT="${SLOWDOWN_ALT:-0.8}"        # slower + lower pitch
+
 BPMFAST="${BPMFAST:-1.20}"      # faster, pitch preserved
+BPMFAST_ALT="${BPMFAST_ALT:-1.240}"      # faster, pitch preserved
+BPMFAST_ALT_2="${BPMFAST_ALT_2:-1.420}"      # faster, pitch preserved
 BPMSLOW="${BPMSLOW:-0.85}"      # slower, pitch preserved
+BPMSLOW_ALT="${BPMSLOW_ALT:-0.75}"      # slower, pitch preserved
 # -----------------------------------------
 
 STAMP="$(date '+%Y%m%d-%H%M%S')"
 ROOT="$INPUT/AudioEdits"
-mkdir -p "$ROOT"/{mp3/nightcore,mp3/nightcore_alt,mp3/daycore,mp3/daycore_alt,mp3/morningcore,mp3/morningcore_alt,mp3/speedup,mp3/slowdown,mp3/bpmfast,mp3/bpmslow,manifests,logs}
+mkdir -p "$ROOT"/{mp3/nightcore,mp3/nightcore_alt,mp3/daycore,mp3/daycore_alt,mp3/morningcore,mp3/morningcore_alt,mp3/speedup,mp3/speedup_alt,mp3/speedup_alt_2,mp3/slowdown,mp3/slowdown_alt,mp3/tempofast,mp3/tempofast_alt,mp3/tempofast_alt_2,mp3/temposlow/temposlow_alt,mp3,manifests,logs}
 
 JSON="$ROOT/manifests/audio-edits-$STAMP.json"
 CSV="$ROOT/manifests/audio-edits-$STAMP.csv"
@@ -132,21 +143,35 @@ process_variant() {
   fi
 }
 
+
 while IFS= read -r -d '' src; do
   COUNT=$((COUNT+1))
   echo "" | tee -a "$LOG"
   echo "[$COUNT] $(basename "$src")" | tee -a "$LOG"
 
-  process_variant "$src" "nightcore" "$NIGHTCORE" "pitch"
-  process_variant "$src" "nightcore_alt" "$NIGHTCORE_ALT" "pitch"
-  process_variant "$src" "daycore" "$DAYCORE" "pitch"
-  process_variant "$src" "daycore_alt" "$DAYCORE_ALT" "pitch"
-  process_variant "$src" "morningcore" "$MORNINGCORE" "pitch"
-  process_variant "$src" "morningcore_alt" "$MORNINGCORE" "pitch"
-  process_variant "$src" "speedup" "$SPEDUP" "pitch"
-  process_variant "$src" "slowdown" "$SLOWDOWN" "pitch"
-  process_variant "$src" "bpmfast" "$BPMFAST" "tempo"
-  process_variant "$src" "bpmslow" "$BPMSLOW" "tempo"
+process_variant "$src" "nightcore" "$NIGHTCORE" "pitch"
+process_variant "$src" "nightcore_alt" "$NIGHTCORE_ALT" "pitch"
+
+process_variant "$src" "daycore" "$DAYCORE" "pitch"
+process_variant "$src" "daycore_alt" "$DAYCORE_ALT" "pitch"
+
+process_variant "$src" "morningcore" "$MORNINGCORE" "pitch"
+process_variant "$src" "morningcore_alt" "$MORNINGCORE_ALT" "pitch"
+
+process_variant "$src" "speedup" "$SPEDUP" "pitch"
+process_variant "$src" "speedup_alt" "$SPEDUP_ALT" "pitch"
+process_variant "$src" "speedup_alt_2" "$SPEDUP_ALT_2" "pitch"
+
+process_variant "$src" "slowdown" "$SLOWDOWN" "pitch"
+process_variant "$src" "slowdown_alt" "$SLOWDOWN_ALT" "pitch"
+
+process_variant "$src" "tempofast" "$TEMPOFAST" "tempo"
+process_variant "$src" "tempofast_alt" "$TEMPOFAST_ALT" "tempo"
+process_variant "$src" "tempofast_alt_2" "$TEMPOFAST_ALT_2" "tempo"
+
+process_variant "$src" "temposlow" "$TEMPOSLOW" "tempo"
+process_variant "$src" "temposlow_alt" "$TEMPOSLOW_ALT" "tempo"
+process_variant "$src" "temposlow_alt_2" "$TEMPOSLOW_ALT_2" "tempo"
 done < "$MANIFEST_TMP.files"
 
 export MANIFEST_TMP JSON CSV INPUT ROOT STAMP VBR_QUALITY
