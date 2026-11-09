@@ -55,6 +55,9 @@ DAYCORE_ALT="${DAYCORE_ALT:-0.85}"
 MORNINGCORE="${MORNINGCORE:-0.90}"
 MORNINGCORE_ALT="${MORNINGCORE_ALT:-0.75}"
 
+DREAMCORE="${DREAMCORE:-0.95}"
+DREAMCORE_ALT="${DREAMCORE_ALT:-0.90}"
+
 SPEDUP="${SPEDUP:-1.200}"
 SPEDUP_ALT="${SPEDUP_ALT:-1.220}"
 SPEDUP_ALT_2="${SPEDUP_ALT_2:-1.340}"
@@ -84,6 +87,8 @@ mkdir -p \
   "$ROOT/mp3/daycore_alt" \
   "$ROOT/mp3/morningcore" \
   "$ROOT/mp3/morningcore_alt" \
+  "$ROOT/mp3/dreamcore" \
+  "$ROOT/mp3/dreamcore_alt" \
   "$ROOT/mp3/speedup" \
   "$ROOT/mp3/speedup_alt" \
   "$ROOT/mp3/speedup_alt_2" \
@@ -392,6 +397,9 @@ while IFS= read -r -d '' src; do
 
   process_variant "$src" "morningcore" "$MORNINGCORE" "pitch"
   process_variant "$src" "morningcore_alt" "$MORNINGCORE_ALT" "pitch"
+
+  process_variant "$src" "dreamcore" "$DREAMCORE" "pitch"
+  process_variant "$src" "dreamcore_alt_2" "$DREAMCORE_ALT" "pitch"
   
   process_variant "$src" "speedup" "$SPEDUP" "pitch"
   process_variant "$src" "speedup_alt" "$SPEDUP_ALT" "pitch"
