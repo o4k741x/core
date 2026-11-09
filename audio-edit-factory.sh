@@ -45,12 +45,6 @@ fi
 
 VBR_QUALITY="${VBR_QUALITY:-2}"
 
-# Dreamcore, chatgpt params 0.90 0.85 0.80 but adding reverb, gentle echo, and subtle ambient textures 
-# would make the results feel much more like actual dreamcore.
-DREAMCORE="${DREAMCORE:-0.95}"
-DREAMCORE_ALT="${DREAMCORE_ALT:-0.90}"
-DREAMCORE_ALT_2="${DREAMCORE_ALT_2:-0.85}"
-
 # Speed + pitch
 NIGHTCORE="${NIGHTCORE:-1.25}"
 NIGHTCORE_ALT="${NIGHTCORE_ALT:-1.20}"
@@ -90,9 +84,6 @@ mkdir -p \
   "$ROOT/mp3/daycore_alt" \
   "$ROOT/mp3/morningcore" \
   "$ROOT/mp3/morningcore_alt" \
-  "$ROOT/mp3/dreamcore" \
-  "$ROOT/mp3/dreamcore_alt" \
-  "$ROOT/mp3/dreamcore_alt_2" \
   "$ROOT/mp3/speedup" \
   "$ROOT/mp3/speedup_alt" \
   "$ROOT/mp3/speedup_alt_2" \
@@ -401,12 +392,7 @@ while IFS= read -r -d '' src; do
 
   process_variant "$src" "morningcore" "$MORNINGCORE" "pitch"
   process_variant "$src" "morningcore_alt" "$MORNINGCORE_ALT" "pitch"
-
-  # Dreamcore
-  process_variant "$src" "dreamcore" "$DREAMCORE" "pitch"
-  process_variant "$src" "dreamcore_alt" "$DREAMCORE_ALT" "pitch"
-  process_variant "$src" "dreamcore_alt_2" "$DREAMCORE_ALT_2" "tempo"
-
+  
   process_variant "$src" "speedup" "$SPEDUP" "pitch"
   process_variant "$src" "speedup_alt" "$SPEDUP_ALT" "pitch"
   process_variant "$src" "speedup_alt_2" "$SPEDUP_ALT_2" "pitch"
