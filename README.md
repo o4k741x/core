@@ -47,6 +47,8 @@ AudioEdits/
 - TempoFast: 1.20× tempo, pitch preserved
 - TempoSlow: 0.85× tempo, pitch preserved
 
+More incoming: More cores: Dreamcore, slowed+reverb, more speedups, more slow etc.. 
+
 ## Change compression
 
 Default:
