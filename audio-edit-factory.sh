@@ -45,7 +45,8 @@ fi
 
 VBR_QUALITY="${VBR_QUALITY:-2}"
 
-# Dreamcore, chatgpt params 0.90 0.85 0.80
+# Dreamcore, chatgpt params 0.90 0.85 0.80 but adding reverb, gentle echo, and subtle ambient textures 
+# would make the results feel much more like actual dreamcore.
 DREAMCORE="${DREAMCORE:-0.95}"
 DREAMCORE_ALT="${DREAMCORE_ALT:-0.90}"
 DREAMCORE_ALT_2="${DREAMCORE_ALT_2:-0.85}"
